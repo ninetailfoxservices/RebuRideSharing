@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <string>
 #include <fstream>
+#include <map>
 
 using namespace std;
 
@@ -34,6 +35,7 @@ struct DriverReg
     string vehicleRego;
     string WOF;
     string vehicleModel;
+    int vehicleCap;
     string driverID;
     struct DriverLogin driver;
 };
@@ -54,20 +56,22 @@ struct CustomerReg
     struct CustomerLogin customer;
 };
 
-struct Booking{
+struct Booking
+{
     string tripNo;
     string startDestination;
     string endDestination;
     string bookingDate;
     string bookingTime;
-    string noPassengers;
+    int noPassengers;
     string specialReqs;
     string luggage;
-    string paymentStatus;
+    bool paymentStatus;
+    int payAmount;
     string cancelBooking;
 };
 
-int newDriver(int answer);
+int newDriver(int &answer);
 int existingDriver(int answer);
 int administrator(int answer);
 int newCustomer(int answer);
@@ -107,7 +111,7 @@ int main()
 int menu(int answer)
 {
     int attempts = 0;
-    while (answer <= 0 || answer > 6)
+    while (answer true)
     {
         switch (answer)
         {
@@ -129,8 +133,11 @@ int menu(int answer)
         case 6:
             bookTrip(answer);
             break;
+        case 7:
+            return (false);
         default:
-            cout << "Please select an option on the list: ";
+            cout << "Invalid Input";
+            break;
             attempts++;
         }
     }
@@ -140,6 +147,7 @@ int menu(int answer)
 
 int newDriver(int answer)
 {
+
     fstream input;
     input.open("driverLogin.dat", ios::out | ios::binary);
 
@@ -154,6 +162,7 @@ int newDriver(int answer)
     cout << "Please enter a password: " << endl;
     getline(cin, d1.driverPassword);
     
+
 }
 
 void printLine()
