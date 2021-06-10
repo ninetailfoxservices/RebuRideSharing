@@ -159,8 +159,6 @@ void newDriver(fstream &driverReg)
         cout << "Please enter a password : ";
         cin.getline(DR1.driverPassword, CSIZE);
 
-        driverReg.write(reinterpret_cast<char*>(&driverReg), sizeof(driverReg));
-
         cout << "Enter First and Last Name : ";
         cin.getline(DR1.fullName, CSIZE);
         cout << "Enter Pronouns E.G (He,Him or She,Her) : ";
@@ -172,6 +170,8 @@ void newDriver(fstream &driverReg)
         cout << "Enter License Number : ";
         cin.getline(DR1.licenseNum, CSIZE);
         cout << "Enter "
+            
+        driverReg.write(reinterpret_cast<char*>(&driverReg), sizeof(driverReg));
     }
     else {
         cout << "Exiting Driver Signup...\n";
