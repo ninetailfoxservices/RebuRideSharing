@@ -3,10 +3,13 @@
 // Version: 0.1
 // start date: 08/06/2021
 
+#include <time.h>
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include <fstream>
+#include <limits>
+#include <conio.h>
 using namespace std;
 
 
@@ -33,7 +36,7 @@ struct DriverReg
     char vehicleRego[CSIZE];
     char WOF[CSIZE];
     char vehicleModel[CSIZE];
-    char driverID[CSIZE];
+    int driverID;
     int vehicleCap;
 };
 
@@ -64,53 +67,72 @@ struct Booking {
 
 //prototyping functions Level 1
 void newDriver(fstream &driverReg);
-//void existingDriver();
+void existingDriver(fstream &driverReg);
 //void administrator();
 //void newCustomer();
 //void existingCustomer();
-//void bookTrip();
+//void bookTrip(fstream &bookingInfo);
 void printLine();
 //prototyping functions Level 2
-
+//void dailyTripReport();
+//void availableTrips();
+//void viewPayment();
+//void cancelTrip();
 
 int main()
 {
+    //seed rand function
+    srand(time(nullptr));
     //local variable
     int input = 0;
 
     //struct variables
-    DriverReg DR;
-    CustomerReg CR;
-    Booking Book;
+//    DriverReg DR;
+ //   CustomerReg CR;
+ //   Booking Book;
 
     //creating file object and open file handles
     fstream driverReg;
-    fstream customerReg;
-    fstream bookingInfo;
+  //  fstream customerReg;
+ //   fstream bookingInfo;
     
     while (true)
     {
+        system("CLS");
+        printLine();
+
+        cout << "\t\nWelcome to Rebu Ride Sharing!\n";
 
         printLine();
 
-        cout << "\tWelcome to Rebu Ride Sharing!\n";
-
-        printLine();
-
-        cout << "\tMenu.\n1. Register as a Driver\n2. Driver Login\n3. New Customer\n4. Customer Login\n5. Administrator\n6. Book a Trip";
+        cout << "\n\tMenu.\n1. Register as a Driver\n2. Driver Login\n3. New Customer\n4. Customer Login\n5. Administrator\n6. Book a Trip\n7. Exit\n";
 
         printLine();
 
         cout << "Enter Option Number : ";
-        cin >> input;
-
+        //checking if user entered char instaed of int
+        while (true)
+        {
+            cin >> input;
+            if (!cin)
+            {
+                cout << "Please select an option on the list : ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+            else {
+                break;
+            }
+        }
+        cin.ignore();
         switch (input)
         {
         case 1:
             newDriver(driverReg);
             break;
         case 2:
-           // existingDriver(driverReg);
+            existingDriver(driverReg);
             break;
         case 3:
            // newCustomer(customerReg);
@@ -128,7 +150,8 @@ int main()
             cout << "Exiting Program...";
             exit(0);
         default:
-            cout << "Please select an option on the list : ";
+            cout << "\nPlease select an option on the list...";
+            cin.get();
             break;
         }
     }
@@ -157,13 +180,16 @@ void newDriver(fstream &driverReg)
         }
 
         //entering new driver username and password
+        cin.ignore();
         cout << "Please enter a username : ";
         cin.getline(DR1.driverUser, CSIZE);
         cout << "Please enter a password : ";
         cin.getline(DR1.driverPassword, CSIZE);
 
         
-
+        //entering driver details
+        //assign driver id
+        DR1.driverID = rand() % 1000 + 100;
         cout << "Enter First and Last Name : ";
         cin.getline(DR1.fullName, CSIZE);
         cout << "Enter Pronouns E.G (He,Him or She,Her) : ";
@@ -193,18 +219,140 @@ void newDriver(fstream &driverReg)
         cout << "Enter Warrent Of Fitness : ";
         cin.getline(DR1.vehicleModel, CSIZE);
         cout << "Enter Vehicle Capacity : ";
-        cin >> DR1.vehicleCap;
 
-
-        //assign driver id
+        //checking for numeric value... input validation
+        while (true)
+        {
+            cin >> DR1.vehicleCap;
+            if (!cin)
+            {
+                cout << "Please enter an interger for Vehicle Capacity" << endl;
+                cout << "Enter Vehicle Capacity : ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+            else {
+                break;
+            }
+        }
+        
         //have a confirmation on account details and chance to edit information maybe?
 
-        driverReg.write(reinterpret_cast<char*>(&driverReg), sizeof(driverReg));
+        driverReg.write(reinterpret_cast<char*>(&DR1), sizeof(DR1));
+        driverReg.close();
     }
     else {
         cout << "Exiting Driver Signup...\n";
     }
     
+}
+
+void existingDriver(fstream& driverReg)
+{
+    //have a login form, have 3 tries, if correct then go to menu if fail then print error and return to main menu
+
+    //Buffer used for reading
+    DriverReg DR2;
+
+    //local variables
+    int input = 0;
+    //used in strcmp function to compare variables
+    
+    char user[CSIZE];
+    char pass[CSIZE];
+    //check if there is a user and pass match
+    bool flag = false;
+
+    //opening file for reading
+    driverReg.open("driverReg.dat", ios::in | ios::binary);
+    //filer error check
+    if (!driverReg)
+    {
+        cout << "Error, could not open driver files.";
+        exit(1);
+    }
+
+    
+    //getting username and password
+    cout << "Enter Username : ";
+    cin.getline(user, CSIZE);
+    cout << "Enter Password : ";
+    cin.getline(pass, CSIZE);
+    driverReg.read(reinterpret_cast<char*>(&DR2), sizeof(DR2));
+
+    while (!driverReg.eof())
+    {
+        if ((strcmp(user, DR2.driverUser) == 0) && (strcmp(pass, DR2.driverPassword) == 0))
+        {
+            //driver menu
+            while (true)
+            {
+                system("CLS");
+                printLine();
+                cout << "\nCongratulations! this is driver menu\n";
+                cout << "\nDriver ID : " << DR2.driverID;
+                cout << "\nfisrt Name : " << DR2.fullName;
+                cout << "\nDate Of Birth : " << DR2.dob;
+                printLine();
+
+                cout << "\n\tDriver Menu.\n1. Daily Trip Report\n2. Available Trips\n3. View Payments\n4. Cancel Trip\n5. Exit\n";
+
+                printLine();
+
+                cout << "Enter Option Number : ";
+                //checking if user entered char instaed of int
+                while (true)
+                {
+                    cin >> input;
+                    if (!cin)
+                    {
+                        cout << "Please select an option on the list : ";
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        continue;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                cin.ignore();
+                
+
+                switch (input)
+                {
+                case 1:
+                 //   dailyTripReport();
+                    break;
+                case 2:
+                 //   availableTrips();
+                case 3:
+                 //   viewPayment();
+                    break;
+                case 4:
+                 //   cancelTrip();
+                    break;
+                case 5:
+                    cout << "Returning to Main Menu...";
+                    cin.get();
+                    main();
+                default:
+                    cout << "\nPlease select an option on the list...";
+                    cin.get();
+                    break;
+                }
+                flag = true;
+            }
+            
+        }
+        driverReg.read(reinterpret_cast<char*>(&DR2), sizeof(DR2));
+    }
+    if (flag == false)
+    {
+        cout << "\n\n Login failed\n";
+        cin.get();
+    }
+    driverReg.close();
 }
 
 void printLine()
