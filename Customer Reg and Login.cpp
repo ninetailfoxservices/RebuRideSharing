@@ -46,6 +46,7 @@ struct CustomerReg
     char custContactNo[CSIZE];
     char custEmail[CSIZE];
     char custAdd[CSIZE];
+    int custZones;
     char custPayment[CSIZE];
 };
 
@@ -70,6 +71,8 @@ void printLine();
 
 fstream customerReg;
 CustomerReg CR;
+fstream bookingInfo;
+Booking book;
 int customerAccPosition = 0;
 
 int main()
@@ -125,8 +128,10 @@ void newCustomer(fstream& customerReg)
         cin.getline(CR1.custContactNo, CSIZE);
         cout << "Enter email: ";
         cin.getline(CR1.custEmail, CSIZE);
-        cout << "Enter home address: ";
+        cout << "Enter street address: ";
         cin.getline(CR1.custAdd, CSIZE);
+        cout << "Enter zone: ";
+        cin >> CR1.custZones;
         cout << "Enter preferred payment method: ";
         cin.getline(CR1.custPayment, CSIZE);
 
@@ -240,7 +245,7 @@ void customerMenu(fstream& customerReg)
         switch (choice)
         {
         case 1:
-             // bookTrip(bookingInfo, customerReg);
+             bookTrip(bookingInfo, customerReg);
              break;
         case 2:
              // viewPayment(customerReg);
@@ -265,6 +270,11 @@ void customerMenu(fstream& customerReg)
         cin.get();
     }
     customerReg.close();
+}
+
+void bookTrip(fstream& bookingInfo, fstream& customerReg)
+{
+
 }
 
 void printLine()
