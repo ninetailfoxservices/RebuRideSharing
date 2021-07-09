@@ -10,7 +10,6 @@
 #include <string>
 #include <fstream>
 #include <limits>
-#include <conio.h>
 #include <ctime>
 using namespace std;
 
@@ -81,10 +80,12 @@ struct Booking {
     char cancelBooking[CSIZE];
     bool paymentStatus;
     double totalPrice;
+    bool tripAccept;
 
     Booking(bool stat = false)
     {
         paymentStatus = stat;
+        tripAccept = stat;
     }
 };
 //*************************************
@@ -1218,8 +1219,9 @@ void bookingTrip(fstream& bookingInfo, fstream& customerReg)
         BK.totalPrice = price;// assigning temp variable price to totalPrice stucture member
         cin.ignore();
         cin.clear();
-        cout << "\n[Your Booking is now being processed. Awaiting for Driver Response]";
+        cout << "\n[Your Booking is now being processed. Waiting for Driver Response]";
         cin.get();
+        BK.tripAccept = true;
         bookingInfo.write(reinterpret_cast<char*>(&BK), sizeof(BK));
         bookingInfo.close();
         customerReg.close();
