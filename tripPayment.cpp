@@ -90,9 +90,10 @@ struct Booking
     }
 };
 
-void tripPayment(fstream& bookingInfo, fstream& customerReg);
+bool tripPayment(fstream& bookingInfo, fstream& customerReg);
 Booking BK;
 CustomerReg CR;
+bool paid;
 
 fstream bookingInfo, customerReg;
 
@@ -101,7 +102,7 @@ int main()
     tripPayment(bookingInfo, customerReg);
 }
 
-void tripPayment(fstream& bookingInfo, fstream& customerReg)
+bool tripPayment(fstream& bookingInfo, fstream& customerReg)
 {
     char choice;
     char passwordConfirm[CSIZE];
@@ -125,10 +126,12 @@ void tripPayment(fstream& bookingInfo, fstream& customerReg)
                 {
                     cout << "Payment Complete!";
                     cout << "\nReturning to customer menu.";
+                    paid = true;
                 }
                 else if (toupper(payChoice) == 'N')
                 {
                     cout << "Cancelling payment, returning to booking menu.";
+                    paid = false;
                     //bookTrip(bookingInfo, customerReg);
                 }
                 else
@@ -145,6 +148,9 @@ void tripPayment(fstream& bookingInfo, fstream& customerReg)
     }
     else if (BK.tripAccept = false)
     {
+        paid = false;
         //customerMenu();
     }
+
+    return paid;
 }
