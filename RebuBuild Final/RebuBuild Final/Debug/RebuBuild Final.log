@@ -1,0 +1,12 @@
+﻿  RebuBuild Final.cpp
+C:\Users\GGPC\source\repos\RebuBuild Final\RebuBuild Final\RebuBuild Final.cpp(140,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\GGPC\source\repos\RebuBuild Final\RebuBuild Final\RebuBuild Final.cpp(410,23): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\GGPC\source\repos\RebuBuild Final\RebuBuild Final\RebuBuild Final.cpp(507,48): warning C4244: '=': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
+C:\Users\GGPC\source\repos\RebuBuild Final\RebuBuild Final\RebuBuild Final.cpp(675,25): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\GGPC\source\repos\RebuBuild Final\RebuBuild Final\RebuBuild Final.cpp(759,52): warning C4244: '=': conversion from 'std::streamoff' to 'unsigned int', possible loss of data
+C:\Users\GGPC\source\repos\RebuBuild Final\RebuBuild Final\RebuBuild Final.cpp(1321,25): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\GGPC\source\repos\RebuBuild Final\RebuBuild Final\RebuBuild Final.cpp(1330,25): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\GGPC\source\repos\RebuBuild Final\RebuBuild Final\RebuBuild Final.cpp(966,9): warning C4101: 'choice': unreferenced local variable
+C:\Users\GGPC\source\repos\RebuBuild Final\RebuBuild Final\RebuBuild Final.cpp(1624,10): warning C4101: 'passwordConfirm': unreferenced local variable
+C:\Users\GGPC\source\repos\RebuBuild Final\RebuBuild Final\RebuBuild Final.cpp(1623,10): warning C4101: 'confirmation': unreferenced local variable
+  RebuBuild Final.vcxproj -> C:\Users\GGPC\source\repos\RebuBuild Final\Debug\RebuBuild Final.exe
